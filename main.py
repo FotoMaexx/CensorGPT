@@ -119,7 +119,7 @@ def entry_popup(x, y, column, row_id):
     entry_popup.entry.place(x=x, y=y)
     
     # Hier holen wir den Index der Spalte basierend auf dem Namen der Spalte
-    col_index = censor_table["displaycolumns"].index(column[1:])
+    col_index = int(column[1:]) - 1
     original_value = censor_table.item(row_id, 'values')[col_index]
     entry_popup.entry.insert(0, original_value)
     entry_popup.entry.select_range(0, tk.END)
@@ -172,3 +172,44 @@ censor_table.bind('<<TreeviewSelect>>', on_select)
 
 # Hauptloop starten
 root.mainloop()
+
+def on_double_click(event):
+    # Überprüfen, ob auf eine Zelle der Tabelle geklickt wurde
+    region = censor_table.identify("region", event.x, event.y)
+    if region == "cell":
+        row_id = censor_table.identify_row(event.y)
+        column = censor_table.identify_column(event.x)
+        
+        # Starte die Bearbeitung nur, wenn die Zelle zur ersten oder zweiten Spalte gehört
+        if column == "#1" or column == "#2":
+            start_editing(row_id, column)
+
+def start_editing(row_id, column):
+    # Hole die Position der Zelle
+    x, y, width, height = censor_table.bbox(row_id, column)
+    
+    # Hole den aktuellen Wert der Zelle
+    value = censor_table.item(row_id, 'values')[int(column.replace('#', '')) - 1]
+    
+    # Erstelle ein Entry-Widget zur Bearbeitung des Werts
+    entry = tk.Entry(root, width=width)
+    entry.place(x=x, y=y, width=width, height=height, anchor='nw')
+    entry.insert(0, value)
+    entry.focus()
+
+    def on_entry_confirm(event):
+        # Aktualisiere den Wert in der Tabelle
+        censor_table.item(row_id, values=(
+            entry.get() if column == "#1" else censor_table.item(row_id, 'values')[0],
+            entry.get() if column == "#2" else censor_table.item(row_id, 'values')[1]
+        ))
+        entry.destroy()  # Entferne das Entry-Widget
+
+    def on_entry_cancel(event):
+        entry.destroy()  # Entferne das Entry-Widget ohne Speichern
+
+    entry.bind('<Return>', on_entry_confirm)  # Bestätigung bei Drücken der Eingabetaste
+    entry.bind('<Escape>', on_entry_cancel)   # Abbruch bei Drücken der Esc-Taste
+
+# Doppelklick-Event zum Bearbeiten der Zellen
+censor_table.bind('<Double-1>', on_double_click)
