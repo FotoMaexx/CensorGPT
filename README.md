@@ -19,11 +19,11 @@ CensorGPT ist eine plattformübergreifende Desktop-Anwendung, entwickelt, um Tex
 
 ## Beitrag
 
-Interessierte an der Weiterentwicklung von CensorGPT sind willkommen, Beiträge zum Projekt zu leisten. Bitte lesen Sie `CONTRIBUTING.md` für Details über unseren Code of Conduct und den Prozess für das Einreichen von Pull Requests an uns.
+Interessierte an der Weiterentwicklung von CensorGPT sind willkommen, Beiträge zum Projekt zu leisten. Bitte lesen Sie [CONTRIBUTING.md](CONTRIBUTING.md) für Details über unseren Code of Conduct und den Prozess für das Einreichen von Pull Requests an uns.
 
 ## Lizenz
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die `LICENSE.md` Datei für Details.
+Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die [LICENSE](LICENSE) Datei für Details.
 
 ## Anerkennungen
 
