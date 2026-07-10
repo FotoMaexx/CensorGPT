@@ -213,3 +213,12 @@ def start_editing(row_id, column):
 
 # Doppelklick-Event zum Bearbeiten der Zellen
 censor_table.bind('<Double-1>', on_double_click)
+
+def decensor_text():
+    # Iterate over the items in the censor_table and replace placeholders with original text
+    for child in censor_table.get_children():
+        original, placeholder = censor_table.item(child, 'values')
+        input_text.replace('[' + placeholder + ']', original)
+    
+    # Update the text in the input_text widget
+    input_text_content.set(input_text.get('1.0', tk.END))
